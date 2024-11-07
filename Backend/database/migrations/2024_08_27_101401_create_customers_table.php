@@ -14,10 +14,10 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('email');
-            $table->integer('phone_no');
+            $table->bigInteger('phone_no');
             $table->text('address');
             $table->string('city');
-            $table->integer('postal_code');
+            $table->integer('postal_code')->nullable();
             $table->string('status');
             $table->timestamps();
         });

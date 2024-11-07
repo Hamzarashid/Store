@@ -9,28 +9,12 @@ export const ProductProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [customerInfo, setCustomerInfo] = useState({
-    name: "",
-    email: "",
-    phone: null,
-    address: "",
-    city: "",
-    postalCode: null,
-    country: "Pakistan",
-  });
 
   const openCartDrawer = () => {
     setDrawerOpen(true);
   };
   const closeCartDrawer = () => {
     setDrawerOpen(false);
-  };
-
-  const updateCustomerInfo = (info) => {
-    setCustomerInfo((prevInfo) => ({
-      ...prevInfo,
-      ...info,
-    }));
   };
 
   useEffect(() => {
@@ -111,7 +95,8 @@ export const ProductProvider = ({ children }) => {
   };
 
   // Checkout API
-  const checkoutCart = async () => {
+  const checkoutCart = async (customerInfo) => {
+    let result;
     try {
       await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/csrf-token`, {
         credentials: "include",
@@ -132,8 +117,10 @@ export const ProductProvider = ({ children }) => {
         });
       });
       updateCartItems([]);
+      return (result = true);
     } catch (error) {
       console.error("Error completing checkout:", error);
+      return (result = false);
     }
   };
 
@@ -220,8 +207,6 @@ export const ProductProvider = ({ children }) => {
         addToWishlist,
         removeFromWishlist,
         calculateSubtotal,
-        customerInfo,
-        updateCustomerInfo,
       }}
     >
       {children}

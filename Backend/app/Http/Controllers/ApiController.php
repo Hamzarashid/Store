@@ -119,7 +119,7 @@ class ApiController extends Controller
             'phone_no' => $data["customer"]['phone'],
             'address' => $data["customer"]['address'],
             'city' => $data["customer"]['city'],
-            'postal_code' => $data["customer"]['postalCode'],
+            'postal_code' => isset($data["customer"]['postalCode']) ? $data["customer"]['postalCode'] : null,
             'status' => 'Pending',
         ]);
 
