@@ -16,12 +16,14 @@ import {
   SocialIcons,
   AccordionWrapper,
 } from "./FooterStyled";
+import { useStore } from "../../context/Product";
 
 const { Panel } = Collapse;
 const { useBreakpoint } = Grid;
 
 const Footer = () => {
   const screens = useBreakpoint();
+  const { categories } = useStore();
 
   return (
     <FooterContainer>
@@ -71,21 +73,11 @@ const Footer = () => {
             <>
               <FooterTitle>Menu</FooterTitle>
               <MenuList>
-                <li>
-                  <a href="#">Home</a>
-                </li>
-                <li>
-                  <a href="#">Track Suits</a>
-                </li>
-                <li>
-                  <a href="#">Polo Shirts</a>
-                </li>
-                <li>
-                  <a href="#">Dri-fit Shirts</a>
-                </li>
-                <li>
-                  <a href="#">Crew Neck Shirts</a>
-                </li>
+                {categories.map((category, index) => (
+                  <li key={index}>
+                    <a href="#">{category.name}</a>
+                  </li>
+                ))}
               </MenuList>
             </>
           ) : (
@@ -93,21 +85,11 @@ const Footer = () => {
               <Collapse accordion>
                 <Panel header="Menu" key="2">
                   <MenuList>
-                    <li>
-                      <a href="#">Home</a>
-                    </li>
-                    <li>
-                      <a href="#">Track Suits</a>
-                    </li>
-                    <li>
-                      <a href="#">Polo Shirts</a>
-                    </li>
-                    <li>
-                      <a href="#">Dri-fit Shirts</a>
-                    </li>
-                    <li>
-                      <a href="#">Crew Neck Shirts</a>
-                    </li>
+                    {categories.map((category, index) => (
+                      <li key={index}>
+                        <a href="#">{category.name}</a>
+                      </li>
+                    ))}
                   </MenuList>
                 </Panel>
               </Collapse>

@@ -25,6 +25,7 @@ import {
   Section,
   Subtotal,
 } from "./headerStyled";
+import Link from "antd/es/typography/Link";
 
 const { useToken } = theme;
 const Header = () => {
@@ -115,7 +116,9 @@ const Header = () => {
                 </CategoriesWrapper>
               </Dropdown>
             </Section>
-            <UserAddOutlined />
+            <Link href="/">
+              <UserAddOutlined />
+            </Link>
             <HeaderIcon gap="15px">
               {!isCheckoutPage && (
                 <>

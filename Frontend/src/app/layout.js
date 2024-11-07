@@ -19,7 +19,6 @@ export default function RootLayout({ children }) {
             <ProductProvider>
               <Header />
               <main>{children}</main>
-              {/* Conditionally render Footer */}
               {!isCheckoutPage && <Footer />}
             </ProductProvider>
           </StyledComponentsRegistry>

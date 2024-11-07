@@ -1,4 +1,4 @@
-import { Button as AntButton, Flex, Progress, Tabs } from "antd";
+import { Button as AntButton, Button, Flex, Progress, Tabs } from "antd";
 import styled from "styled-components";
 const { TabPane } = Tabs;
 
@@ -14,17 +14,16 @@ export const DescriptionText = styled.p`
 `;
 
 export const ReviewContainer = styled(Flex)`
-  margin-bottom: 20px;
+  width: 100%;
 `;
 
-export const ReviewStats = styled(Flex)`
-  & div {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+export const ReviewStats = styled.div`
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 `;
-
 export const ReviewSummary = styled.div`
   display: flex;
   align-items: center;
@@ -39,7 +38,7 @@ export const ReviewHeader = styled.div`
 `;
 
 export const ReviewListContainer = styled(Flex)`
-  padding: 10px;
+  width: 50%;
 `;
 
 export const CustomProgress = styled(Progress)`
@@ -93,5 +92,20 @@ export const CustomTabPane = styled(TabPane)`
 
   &:hover {
     color: #7b0323;
+  }
+`;
+
+export const InnerContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  width: 100%;
+`;
+
+export const SubmitButton = styled(Button)`
+  width: 100%;
+  background-color: #7b0323;
+
+  &:hover {
+    background-color: #7b0323;
   }
 `;

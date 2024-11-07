@@ -23,7 +23,7 @@ import {
   TextWrapper,
   Title,
 } from "./ProductDetailStyled";
-import ProductDetailTab from "./producttab/ProductDetailTab";
+import ProductReviewTab from "./productreviewtab/ProductReviewTab";
 
 const { Text } = Typography;
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -190,7 +190,7 @@ const ProductDetail = ({ id, hideTabs, setIsModalVisible }) => {
           </Card>
         </InfoContainer>
       </DetailContainer>
-      {!hideTabs && <ProductDetailTab description={description} />}
+      {!hideTabs && <ProductReviewTab description={description} />}
     </ParentContainer>
   );
 };
