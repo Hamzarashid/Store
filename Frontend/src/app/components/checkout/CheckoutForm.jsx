@@ -61,7 +61,7 @@ const CheckoutForm = () => {
     updateCustomerInfo(customerInfo, saveInfo);
     closeCartDrawer();
     await checkoutCart();
-    router.push(`/`);
+    router.push(`/trackorder`);
   };
 
   return (

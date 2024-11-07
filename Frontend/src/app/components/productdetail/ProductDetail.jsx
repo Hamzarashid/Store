@@ -190,7 +190,7 @@ const ProductDetail = ({ id, hideTabs, setIsModalVisible }) => {
           </Card>
         </InfoContainer>
       </DetailContainer>
-      {!hideTabs && <ProductDetailTab />}
+      {!hideTabs && <ProductDetailTab description={description} />}
     </ParentContainer>
   );
 };

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 export const FooterContainer = styled.div`
   background-color: #1d1d1d;
   color: #ffffff;
@@ -13,11 +14,13 @@ export const FooterTitle = styled.h3`
 
 export const ContactInfo = styled.div`
   margin-bottom: 20px;
+  color: #ffffff;
 `;
 
 export const SocialIcons = styled.div`
   display: flex;
   gap: 16px;
+  color: #ffffff;
 `;
 
 export const Icon = styled.div`
@@ -36,9 +39,19 @@ export const MenuList = styled.ul`
     a {
       color: #ffffff;
       text-decoration: none;
-      &:hover {
-        color: #e91e63;
-      }
     }
+  }
+`;
+
+export const AccordionWrapper = styled.div`
+  margin-bottom: 10px;
+  .ant-collapse-header {
+    color: #ffffff !important;
+  }
+  .ant-collapse-content {
+    background-color: #1d1d1d;
+  }
+  .ant-collapse-item {
+    border-bottom: none;
   }
 `;

@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import {
   ArrowDownOutlined,
   EyeOutlined,
@@ -122,13 +121,16 @@ function Cards({ filter }) {
                   title={category}
                   subtitle={`Discover Our ${category} Collection!`}
                 />
-              ) : (
-                ""
-              )}
+              ) : null}
 
               <CardsContainer>
                 {sameCaregoryProducts[category]
-                  .slice(0, displayedRows * 5)
+                  .slice(
+                    0,
+                    filter
+                      ? sameCaregoryProducts[category].length
+                      : displayedRows * 5
+                  )
                   .map((prod) => (
                     <Card key={prod.id} onClick={() => handleCardClick(prod)}>
                       <InnerNested>
@@ -184,15 +186,16 @@ function Cards({ filter }) {
                     </Card>
                   ))}
               </CardsContainer>
-              {displayedRows * 5 < sameCaregoryProducts[category].length && (
-                <LoadMore
-                  iconPosition="end"
-                  icon={<ArrowDownOutlined />}
-                  onClick={loadMoreRows}
-                >
-                  Load More
-                </LoadMore>
-              )}
+              {!filter &&
+                displayedRows * 5 < sameCaregoryProducts[category].length && (
+                  <LoadMore
+                    iconPosition="end"
+                    icon={<ArrowDownOutlined />}
+                    onClick={loadMoreRows}
+                  >
+                    Load More
+                  </LoadMore>
+                )}
             </div>
           ))}
       <Modal

@@ -17,25 +17,12 @@ import {
 const { Text, Title } = Typography;
 const { TabPane } = Tabs;
 
-const ProductDetailTab = () => {
+const ProductDetailTab = ({ description }) => {
   return (
     <CustomTabs defaultActiveKey="1">
       <TabPane tab="Description" key="1" className="custom-tab-pane">
         <DescriptionContainer>
-          <ul>
-            <li>Export Quality.</li>
-            <li>Dri-Fit Fabric (100% Pure Polyester).</li>
-            <li>Breathable to maintain body Temperature.</li>
-            <li>Quick Drying.</li>
-            <li>Relaxed & Comfortable.</li>
-          </ul>
-          <DescriptionText>
-            Relaxing Wear during both regular and workout times, High density
-            top quality Printed logos, hammed Ribbed and Bottom.
-            <HighlightText> LIMITED STOCK! </HighlightText>
-            Pictures attached are original! Machine Washable for long lasting.
-            Don’t Iron on Logos.
-          </DescriptionText>
+          <DescriptionText>{description}</DescriptionText>
         </DescriptionContainer>
       </TabPane>
       <TabPane tab="Additional Information" key="2">

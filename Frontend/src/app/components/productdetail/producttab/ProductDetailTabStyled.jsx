@@ -13,10 +13,6 @@ export const DescriptionText = styled.p`
   color: #333;
 `;
 
-export const HighlightText = styled.span`
-  color: red;
-`;
-
 export const ReviewContainer = styled(Flex)`
   margin-bottom: 20px;
 `;
