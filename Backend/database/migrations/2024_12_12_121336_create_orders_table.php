@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->decimal('price', 10, 2);
             $table->string('size');
             $table->integer('quantity');
+            $table->string('order_number');
             $table->timestamps();
         });
     }
@@ -29,3 +30,4 @@ return new class extends Migration {
         Schema::dropIfExists('orders');
     }
 };
+

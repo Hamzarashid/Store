@@ -114,7 +114,7 @@ const ProductDetail = ({ id, hideTabs, setIsModalVisible }) => {
               </>
             )}
             <Title level={4}>{name}</Title>
-            <Flex align="center" justify="space-between">
+            <Flex align="center" justify="space-between" gap={10}>
               <Flex align="center" justify="center">
                 {discount_price ? (
                   <Price>

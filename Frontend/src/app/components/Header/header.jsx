@@ -89,7 +89,7 @@ const Header = () => {
       <HeaderBottom ref={navCenterRef}>
         <NavCenter align="center" justify="space-between"></NavCenter>
         <BottomContainer>
-          <NavBottom justify="space-between">
+          <NavBottom justify="space-between" align="center">
             <Section align="center">
               <Dropdown
                 dropdownRender={() => (

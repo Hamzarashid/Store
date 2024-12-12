@@ -68,21 +68,14 @@
                             <td align="left"
                                 style="color:#45535C;padding:20px 40px 0 40px;font-family: 'Lato', Arial, Helvetica, sans-serif;font-weight:800;font-size:34px;-webkit-font-smoothing:antialiased;line-height:1.2;"
                                 class="table-container mobile-title">
-                                Hi, {{ $order['customer']['name'] }}
+                                Hi, {{$order['customer']['name']}}
                             </td>
                         </tr>
                         <tr>
                             <td align="left"
                                 style="color:#45535C;padding:20px 40px 0 40px;font-family: 'Lato', Arial, Helvetica, sans-serif;font-weight:800;font-size:34px;-webkit-font-smoothing:antialiased;line-height:1.2;"
                                 class="table-container mobile-title">
-                                We’ve got your order
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="left"
-                                style="color:#5a5a5a;padding:20px 40px 0 40px;font-family: 'Lato', Arial, Helvetica, sans-serif;font-weight:normal;font-size:16px;-webkit-font-smoothing:antialiased;line-height:1.4;"
-                                class="table-container">
-                                Your order has been placed successfully. Here are the details:
+                                Your order has been delivered.
                             </td>
                         </tr>
                         <tr>
@@ -92,13 +85,22 @@
                                 Order Number: {{$order['order_number']}}
                             </td>
                         </tr>
+                        <tr>
+                            <td align="right"
+                                style="padding:20px 40px 0 40px;font-family: 'Lato', Arial, Helvetica, sans-serif;font-weight:bold;font-size:16px;-webkit-font-smoothing:antialiased;line-height:1.4;">
+                                <a href="{{ env('FRONTEND_URL') }}/productreview?orderId={{$order['order_number']}}"
+                                    style="color:#ffffff;text-decoration:none;background-color:#7b0323;padding:8px;border-radius:8px;">
+                                    Write a Review
+                                </a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
 
                 <table cellpadding="0" cellspacing="0" border="0" align="center" width="640"
                     style="width: 640px; min-width: 640px;" role="presentation" bgcolor="#f7f8fb">
                     <tr>
-                        <td height="60" style="line-height:60px;min-height:60px;">
+                        <td height="20" style="line-height:60px;min-height:60px;">
                         </td>
                     </tr>
                 </table>
@@ -129,7 +131,7 @@
                             </td>
                             <td align="left" valign="top"
                                 style="color: #111111; font-family: 'Lato', Arial, Helvetica, sans-serif; font-size: 14px; line-height: 14px;font-weight:normal;">
-                                {{$order['customer']['phone']}}
+                                {{$order['customer']['phone_no']}}
                             </td>
                             <td bgcolor="#FFF" width="50" align="left"
                                 style="color:#5a5a5a;padding:10px 0 10px 0;font-family: 'Lato', Arial, Helvetica, sans-serif;font-weight:bold;font-size:14px;-webkit-font-smoothing:antialiased;line-height:1.4;">
@@ -246,33 +248,33 @@
                                         </td>
                                     </tr>
                                     @php
-                                        $price = 0;
+                                    $price = 0;
                                     @endphp
                                     @foreach ($order['cart'] as $item)
-                                        <tr>
-                                            <td bgcolor="#FFF" width="40" align="left"
-                                                style="color:#5a5a5a;padding:10px 0 10px 0;font-family: 'Lato', Arial, Helvetica, sans-serif;font-weight:bold;font-size:14px;-webkit-font-smoothing:antialiased;line-height:1.4;">
-                                            </td>
-                                            <td bgcolor="#FFFFFF" align="left"
-                                                style="color:#5a5a5a;padding:10px 40px 10px 40px;font-family: 'Lato', Arial, Helvetica, sans-serif;font-weight:normal;font-size:14px;-webkit-font-smoothing:antialiased;line-height:1.4;">
-                                                {{$item['name']}}
-                                            </td>
-                                            <td bgcolor="#FFFFFF" align="right"
-                                                style="color:#5a5a5a;padding:10px 40px 10px 40px;font-family: 'Lato', Arial, Helvetica, sans-serif;font-weight:bold;font-size:14px;-webkit-font-smoothing:antialiased;line-height:1.4;">
-                                                {{$item['size']}}
-                                            </td>
-                                            <td bgcolor="#FFFFFF" align="right"
-                                                style="color:#5a5a5a;padding:10px 40px 10px 40px;font-family: 'Lato', Arial, Helvetica, sans-serif;font-weight:bold;font-size:14px;-webkit-font-smoothing:antialiased;line-height:1.4;">
-                                                {{$item['quantity']}}
-                                            </td>
-                                            <td bgcolor="#FFFFFF" align="right"
-                                                style="color:#5a5a5a;padding:10px 40px 10px 40px;font-family: 'Lato', Arial, Helvetica, sans-serif;font-weight:bold;font-size:14px;-webkit-font-smoothing:antialiased;line-height:1.4;">
-                                                {{$item['price']}}
-                                            </td>
-                                            <td bgcolor="#FFF" width="40" align="left"
-                                                style="color:#5a5a5a;padding:10px 0 10px 0;font-family: 'Lato', Arial, Helvetica, sans-serif;font-weight:bold;font-size:14px;-webkit-font-smoothing:antialiased;line-height:1.4;">
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td bgcolor="#FFF" width="40" align="left"
+                                            style="color:#5a5a5a;padding:10px 0 10px 0;font-family: 'Lato', Arial, Helvetica, sans-serif;font-weight:bold;font-size:14px;-webkit-font-smoothing:antialiased;line-height:1.4;">
+                                        </td>
+                                        <td bgcolor="#FFFFFF" align="left"
+                                            style="color:#5a5a5a;padding:10px 40px 10px 40px;font-family: 'Lato', Arial, Helvetica, sans-serif;font-weight:normal;font-size:14px;-webkit-font-smoothing:antialiased;line-height:1.4;">
+                                            {{ $item['product_name'] }}
+                                        </td>
+                                        <td bgcolor="#FFFFFF" align="right"
+                                            style="color:#5a5a5a;padding:10px 40px 10px 40px;font-family: 'Lato', Arial, Helvetica, sans-serif;font-weight:bold;font-size:14px;-webkit-font-smoothing:antialiased;line-height:1.4;">
+                                            {{$item['size']}}
+                                        </td>
+                                        <td bgcolor="#FFFFFF" align="right"
+                                            style="color:#5a5a5a;padding:10px 40px 10px 40px;font-family: 'Lato', Arial, Helvetica, sans-serif;font-weight:bold;font-size:14px;-webkit-font-smoothing:antialiased;line-height:1.4;">
+                                            {{$item['quantity']}}
+                                        </td>
+                                        <td bgcolor="#FFFFFF" align="right"
+                                            style="color:#5a5a5a;padding:10px 40px 10px 40px;font-family: 'Lato', Arial, Helvetica, sans-serif;font-weight:bold;font-size:14px;-webkit-font-smoothing:antialiased;line-height:1.4;">
+                                            {{$item['price']}}
+                                        </td>
+                                        <td bgcolor="#FFF" width="40" align="left"
+                                            style="color:#5a5a5a;padding:10px 0 10px 0;font-family: 'Lato', Arial, Helvetica, sans-serif;font-weight:bold;font-size:14px;-webkit-font-smoothing:antialiased;line-height:1.4;">
+                                        </td>
+                                    </tr>
                                     @endforeach
                                     <tr>
                                         <td bgcolor="#FFF" width="40" align="left"
@@ -310,7 +312,6 @@
                         </td>
                     </tr>
                 </table>
-
             </td>
         </tr>
     </tbody>

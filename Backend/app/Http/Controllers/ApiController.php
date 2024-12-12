@@ -8,6 +8,8 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Mail\CustomerOrderMail;
 use App\Mail\AdminOrderMail;
+use App\Mail\CustomerOrderInProgressMail;
+use App\Mail\CustomerOrderDeliveredMail;
 use Illuminate\Http\Request;
 use DB, Response;
 
@@ -108,11 +110,18 @@ class ApiController extends Controller
     }
 
     public function checkout(Request $request)
-    {
-        $data = json_decode($request->getContent(), true);
-        if (!isset($data["customer"]) || !isset($data["cart"])) {
-            return response()->json(['error' => 'Invalid data format'], 400);
-        }
+{
+    $data = json_decode($request->getContent(), true);
+    if (!isset($data["customer"]) || !isset($data["cart"])) {
+        return response()->json(['success' => false, 'error' => 'Invalid data format'], 400);
+    }
+
+    try {
+        DB::beginTransaction();
+
+         $orderNumber = strtoupper(substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 8)); // Random 8-character alphanumeric string
+         $data['order_number'] = $orderNumber; 
+ 
         $customer = new Customer([
             'name' => $data["customer"]['name'],
             'email' => $data["customer"]['email'],
@@ -122,9 +131,10 @@ class ApiController extends Controller
             'postal_code' => isset($data["customer"]['postalCode']) ? $data["customer"]['postalCode'] : null,
             'status' => 'Pending',
         ]);
-
         $customer->save();
         $customerId = $customer->id;
+
+        // Save orders
         foreach ($data["cart"] as $key => $value) {
             $order = new Order([
                 'customer_id' => $customerId,
@@ -132,16 +142,25 @@ class ApiController extends Controller
                 'price' => $value['price'],
                 'size' => $value['size'],
                 'quantity' => $value['quantity'],
+                'order_number' => $orderNumber,
             ]);
             $order->save();
         }
+
         $this->removeQuantity($data["cart"]);
-        // Send emails
-        Mail::to($data["customer"]['email'])->send(new CustomerOrderMail($data));
+
+        DB::commit();
+
+        Mail::to($data["customer"]['email'])->send(new CustomerOrderMail(order: $data));
         Mail::to('hamzarashid.elites@gmail.com')->send(new AdminOrderMail($data));
 
-        return Response::json(["success" => "Order is ready"]);
+        return response()->json(['success' => true, 'message' => 'Order is ready']);
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
     }
+}
+
 
 
     public function orderItems($id)
@@ -154,11 +173,44 @@ class ApiController extends Controller
     }
 
     public function updateCustomerStatus(Request $request, $id)
-    {
-        DB::table('customers')
-            ->where('id', '=', $id)
-            ->update(['status' => $request->status]);
+{
+    $status = $request->status;
 
-        return Response::json(["success" => "Customer info updated"]);
+    DB::table('customers')
+        ->where('id', '=', $id)
+        ->update(['status' => $status]);
+
+    $customer = DB::table('customers')->where('id', $id)->first();
+    $orderCollection = DB::table('orders')
+    ->select('orders.*')
+    ->where('orders.customer_id', '=', $id)->get();
+    $order = $orderCollection->first(); 
+    $totalAmount = $orderCollection->sum('price');
+    if ($customer && $order && $customer->email) {
+        $email = $customer->email;
+
+        $data = (object)[
+            'customer' => $customer,
+            'cart' => $orderCollection,
+            'order_number' => $order->order_number,
+            'total' => $totalAmount,
+        ];
+        $jsonData = json_decode(json_encode($data), true);
+        if ($status === 'In-Progress') {
+            Mail::to($email)->send(new CustomerOrderInProgressMail(order: $jsonData));
+        } elseif ($status === 'Delivered') {
+            Mail::to($email)->send(new CustomerOrderDeliveredMail(order: $jsonData));
+        }
     }
+
+    return Response::json(["success" => "Customer info updated"]);
+}
+public function getOrderList($id)
+{
+    $orders = DB::table('orders')
+        ->select('orders.*')
+        ->where('orders.order_number', '=', $id)->get();
+
+    return Response::json($orders);
+}
 }

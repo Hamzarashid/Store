@@ -80,6 +80,7 @@
                     <h4>Customer orders</h4>
                 </div>
                 <div class="card-body">
+                <h6 id="order-number" class="text-muted"></h6> 
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
@@ -106,34 +107,48 @@
         button.addEventListener('click', function () {
             const customerId = this.getAttribute('data-customer-id');
             const orderList = $('#order-list');
+            const orderNumberElement = $('#order-number');
             const order = $('#orders');
 
-            if (order.hasClass('d-none')) {
-                order.removeClass('d-none');
+            if (order.hasClass('d-none') || order.data('currentCustomer') !== customerId) {
+                orderList.empty(); 
+                orderNumberElement.text(''); 
+
                 $.ajax({
                     url: '/api/order/' + customerId,
                     method: 'GET',
                     success: function (data) {
                         let orderItems = '';
-                        $.each(data, function (index, order) {
-                            orderItems += `
-                                        <tr>
-                                            <th>${index + 1}</th>
-                                            <td>${order.product_name}</td>
-                                            <td>${order.price}</td>
-                                            <td>${order.size || 'N/A'}</td>
-                                            <td>${order.quantity}</td>
-                                        </tr>
-                                    `;
-                        });
-                        document.getElementById('order-list').insertAdjacentHTML('beforeend', orderItems);
+                        if (data.length > 0) {
+                            orderNumberElement.text(`Order Number: ${data[0].order_number || 'N/A'}`);
+
+                            $.each(data, function (index, order) {
+                                orderItems += `
+                                    <tr>
+                                        <th>${index + 1}</th>
+                                        <td>${order.product_name}</td>
+                                        <td>${order.price}</td>
+                                        <td>${order.size || 'N/A'}</td>
+                                        <td>${order.quantity}</td>
+                                    </tr>
+                                `;
+                            });
+                        } else {
+                            orderItems = '<tr><td colspan="5">No orders found.</td></tr>';
+                        }
+                        orderList.append(orderItems);
+                        order.removeClass('d-none');
+                        order.data('currentCustomer', customerId);
                     },
                     error: function (error) {
-                        document.getElementById('order-list').insertAdjacentHTML('beforeend', '<tr><td colspan="5">Failed to load orders.</td></tr>');
+                        orderList.html('<tr><td colspan="5">Failed to load orders.</td></tr>');
                     }
                 });
             } else {
                 order.addClass('d-none');
+                orderList.empty(); 
+                orderNumberElement.text(''); 
+                order.removeData('currentCustomer');
             }
         });
     });
@@ -155,3 +170,4 @@
         });
     }
 </script>
+

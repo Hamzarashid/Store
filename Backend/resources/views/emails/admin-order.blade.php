@@ -78,6 +78,13 @@
                                 A new order has been placed. Here are the details:
                             </td>
                         </tr>
+                        <tr>
+                            <td align="left"
+                                style="color:#5a5a5a;padding:20px 40px 0 40px;font-family: 'Lato', Arial, Helvetica, sans-serif;font-weight:normal;font-size:16px;-webkit-font-smoothing:antialiased;line-height:1.4;"
+                                class="table-container">
+                                Order Number: {{$order['order_number']}}
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
 

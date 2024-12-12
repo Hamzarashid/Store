@@ -1,35 +1,22 @@
 "use client";
 import {
-  Divider,
   Flex,
-  InputNumber,
   List,
-  Modal,
   Rate,
-  Space,
-  Tabs,
   Typography,
 } from "antd";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { tabreviews } from "../../../constants";
 import {
-  CustomButton,
   CustomProgress,
-  CustomTabs,
-  DescriptionContainer,
-  DescriptionText,
-  InnerContainer,
   ReviewContainer,
   ReviewListContainer,
   ReviewStats,
   ReviewSummary,
-  SubmitButton,
 } from "./ProductReviewTabStyled";
 
 const { Text, Title } = Typography;
 
-const ProductReviewTab = ({ description }) => {
+const ProductReviewTab = () => {
   return (
     <>
       <ReviewContainer justify="space-between" align="baseline">
@@ -38,14 +25,13 @@ const ProductReviewTab = ({ description }) => {
             itemLayout="vertical"
             dataSource={tabreviews}
             renderItem={(review) => (
-              <>
-                <Flex justify="space-between">
+                <List.Item>
+                  <Flex justify="space-between">
                   <Rate disabled defaultValue={review.rating} />
                   <Text type="secondary" color="#7b0323">
                     {review.date}
                   </Text>
                 </Flex>
-                <List.Item>
                   <List.Item.Meta
                     title={<Text strong>{review.title}</Text>}
                     description={
@@ -57,7 +43,6 @@ const ProductReviewTab = ({ description }) => {
                     }
                   />
                 </List.Item>
-              </>
             )}
           />
         </ReviewListContainer>

@@ -34,8 +34,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const CheckoutForm = () => {
   const router = useRouter();
   const [form] = Form.useForm();
-  const { cartItems, calculateSubtotal, checkoutCart, closeCartDrawer } =
-    useStore();
+  const { cartItems, calculateSubtotal, checkoutCart } = useStore();
   const subtotal = useMemo(() => calculateSubtotal(), [cartItems]);
   const [showBillingAddress, setShowBillingAddress] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -53,6 +52,12 @@ const CheckoutForm = () => {
     setLoader(true);
     const result = await checkoutCart(customerInfo);
     if (result) {
+      api.open({
+        message: "Checkout completed",
+        description: "your order is completed",
+        showProgress: true,
+        pauseOnHover: true,
+      });
       router.push(`/`);
     } else {
       api.open({

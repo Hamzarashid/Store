@@ -1,6 +1,7 @@
 "use client";
-import { Input, Modal, Rate, Typography } from "antd";
-import { useState } from "react";
+import { Input, Modal, Rate, Typography, Row } from "antd";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation"; 
 import { ProductContainer, ProductCard, ReviewButton } from "./pageStyled";
 
 const { Title, Text } = Typography;
@@ -8,14 +9,40 @@ const { Title, Text } = Typography;
 const page = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [orders, setOrders] = useState([]);
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
 
-  const products = [
-    { id: 1, name: "Product 1", price: 4500, rating: 4 },
-    { id: 2, name: "Product 2", price: 4500, rating: 5 },
-    { id: 3, name: "Product 3", price: 4500, rating: 3 },
-  ];
+  const router = useRouter(); 
+  const params = useSearchParams(); 
+
+  const orderId = params.get("orderId");
+
+  useEffect(() => {
+    if (!orderId) {
+      router.push("/"); 
+    }
+  }, [orderId]);
+
+  async function getOrderList() {
+    try {
+      const response = await fetch(`/api/orders/${orderId}`); 
+      if (!response.ok) {
+        throw new Error(`Error fetching data: ${response.statusText}`);
+      }
+      const data = await response.json();
+      setOrders(data); 
+    } catch (error) {
+      console.error("Error fetching product:", error);
+    }
+  }
+
+  useEffect(() => {
+    if(orderId){
+      getOrderList()
+    }
+  }, [orderId])
+  
 
   const handleReviewButtonClick = (product) => {
     setSelectedProduct(product);
@@ -28,13 +55,15 @@ const page = () => {
     console.log("Review:", reviewText);
     setIsModalVisible(false);
   };
+
   return (
-    <>
+    <div style={{margin:"70px 0px"}}>
       <ProductContainer>
-        {products.map((product) => (
+        {orders.map((product) => (
           <ProductCard key={product.id}>
-            <Title level={5}>{product.name}</Title>
+            <Text level={5}>{product.product_name}</Text>
             <Text>{product.price}</Text>
+            <Text>{product.size}</Text>
             <ReviewButton onClick={() => handleReviewButtonClick(product)}>
               Write a Review
             </ReviewButton>
@@ -43,7 +72,7 @@ const page = () => {
       </ProductContainer>
 
       <Modal
-        title={`Write a Review for ${selectedProduct?.name}`}
+        title={`Write a Review for ${selectedProduct?.product_name}`}
         open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         onOk={handleSubmitReview}
@@ -59,7 +88,7 @@ const page = () => {
           />
         </div>
       </Modal>
-    </>
+    </div>
   );
 };
 
