@@ -32,6 +32,7 @@ Route::get('/csrf-token', function () {
     return response()->json(['csrf_token' => csrf_token()]);
 });
 Route::post('api/cart', [ApiController::class, 'checkout']);
+Route::post('api/review', [ApiController::class, 'review']);
 Route::put('api/status/{id}', [ApiController::class, 'updateCustomerStatus']);
 Route::get('api/orderList/{id}', [ApiController::class, 'getOrderList']);
 require __DIR__ . '/auth.php';

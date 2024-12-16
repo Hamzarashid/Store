@@ -23,7 +23,7 @@ export const ReviewButton = styled(Button)`
   border-color: #7b0323;
   color: white;
   &:hover {
-    background-color: #7b0323;
-    border-color: #7b0323;
+    background-color: ${props => props.disabled ? '#ccc' : '#7b0323'};
+    border-color: ${props => props.disabled ? '#ccc' : '#7b0323'} ;
   }
 `;

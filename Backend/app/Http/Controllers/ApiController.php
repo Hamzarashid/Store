@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Review;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Category;
 use App\Models\Product;
@@ -138,6 +139,7 @@ class ApiController extends Controller
         foreach ($data["cart"] as $key => $value) {
             $order = new Order([
                 'customer_id' => $customerId,
+                'product_id' => $value['id'],
                 'product_name' => $value['name'],
                 'price' => $value['price'],
                 'size' => $value['size'],
@@ -208,9 +210,48 @@ class ApiController extends Controller
 public function getOrderList($id)
 {
     $orders = DB::table('orders')
-        ->select('orders.*')
-        ->where('orders.order_number', '=', $id)->get();
+        ->join('customers', 'orders.customer_id', '=', 'customers.id')
+        ->select('orders.*', 'customers.name as customer_name')
+        ->where('orders.order_number', '=', $id)
+        ->get()
+        ->map(function ($order) {
+            $order->review_completed = $order->review_completed ? true : false; 
+            return $order;
+        });
 
     return Response::json($orders);
 }
+
+
+public function review(Request $request)
+{
+    $data = json_decode($request->getContent(), true);
+    if (!isset($data["product_id"])) {
+        return response()->json(['success' => false, 'error' => 'Invalid data format'], 400);
+    }
+
+    try {
+        DB::beginTransaction();
+ 
+        $review = new Review([
+            'product_id' => $data["product_id"],
+            'customer_name' => $data["customer_name"],
+            'rating' => $data["rating"],
+            'message' => $data["message"],
+        ]);
+        $review->save();
+
+        DB::table('orders')
+        ->where('id', '=', $data['order_id'])
+        ->update(['review_completed' => 1]);
+    
+        DB::commit();
+
+        return response()->json(['success' => true, 'message' => 'reivew has been submitted']);
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+    }
+}
+
 }
