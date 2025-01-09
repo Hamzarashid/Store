@@ -117,37 +117,6 @@ export const getItems = (panelStyle) => [
   },
 ];
 
-// Review Data
-export const reviews = [
-  {
-    id: 1,
-    title: 'Comfortable ',
-    description: 'Nice',
-    reviewer: 'Ali Malik',
-    rating: 5,
-  },
-  {
-    id: 2,
-    title: 'Perfect Pants',
-    description: 'Value for money',
-    reviewer: 'Ali H.',
-    rating: 5,
-  },
-  {
-    id: 3,
-    title: 'Value for Money',
-    description: 'Great Quality',
-    reviewer: 'Abbas Ahmad',
-    rating: 5,
-  },
-  {
-    id: 4,
-    title: 'Great Quality',
-    description: 'Great Quality',
-    reviewer: ' Ahmad khan',
-    rating: 5,
-  },
-];
 // Product Detail Carousel
 
 export const images = [
@@ -157,23 +126,3 @@ export const images = [
   'https://picsum.photos/200/200?random=4',
 ];
 
-// tabs Data
-export const tabreviews = [
-  {
-    id: 1,
-    rating: 5,
-    title: 'Beautiful Color',
-    content: 'Beautiful Color my Fav...Quality was zabardast',
-    date: '04/24/2024',
-    author: 'Demo',
-  },
-  {
-    id: 2,
-    rating: 5,
-    title: 'Pure DriFit Material',
-    content:
-      'effectively manage moisture and keep me feeling fresh and comfortable, even during the most intense workouts.',
-    date: '04/24/2024',
-    author: 'SomeOne',
-  },
-];

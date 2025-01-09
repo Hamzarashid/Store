@@ -5,7 +5,6 @@ import {
   Rate,
   Typography,
 } from "antd";
-import { tabreviews } from "../../../constants";
 import {
   CustomProgress,
   ReviewContainer,
@@ -16,30 +15,37 @@ import {
 
 const { Text, Title } = Typography;
 
-const ProductReviewTab = () => {
+const ProductReviewTab = ({reviews}) => {
+
+  const getTotalReviews =(val) => {
+    let counter = 0
+    reviews.forEach(item => {
+      if(item.rating === val){
+        counter++
+      }
+    });
+    return counter;
+  }
+
   return (
     <>
       <ReviewContainer justify="space-between" align="baseline">
         <ReviewListContainer vertical>
           <List
             itemLayout="vertical"
-            dataSource={tabreviews}
+            dataSource={reviews}
             renderItem={(review) => (
                 <List.Item>
                   <Flex justify="space-between">
-                  <Rate disabled defaultValue={review.rating} />
+                  <Rate disabled defaultValue={review.rating} count={5} />
                   <Text type="secondary" color="#7b0323">
-                    {review.date}
+                    {review.updated_at}
                   </Text>
                 </Flex>
                   <List.Item.Meta
-                    title={<Text strong>{review.title}</Text>}
+                    title={<Text strong>{review.message}</Text>}
                     description={
-                      <>
-                        <Text type="secondary">{review.author}</Text>
-                        <br />
-                        <Text>{review.content}</Text>
-                      </>
+                        <Text type="secondary">{review.customer_name}</Text>
                     }
                   />
                 </List.Item>
@@ -52,12 +58,12 @@ const ProductReviewTab = () => {
             <ReviewSummary key={rating}>
               <Rate disabled defaultValue={rating} count={5} />
               <CustomProgress
-                percent={rating === 5 ? 100 : 0}
+                percent={getTotalReviews(rating)}
                 size="small"
                 status="active"
                 showInfo={false}
               />
-              <Text>{rating === 5 ? 4 : 0}</Text>
+              <Text>{getTotalReviews(rating)}</Text>
             </ReviewSummary>
           ))}
         </ReviewStats>

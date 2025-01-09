@@ -28,7 +28,7 @@ import ProductReviewTab from "./productreviewtab/ProductReviewTab";
 const { Text } = Typography;
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-const ProductDetail = ({ id, hideTabs, setIsModalVisible }) => {
+const ProductDetail = ({ id, setIsModalVisible }) => {
   const { fetchProductById, singleProduct, addToCart } = useStore();
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -78,8 +78,9 @@ const ProductDetail = ({ id, hideTabs, setIsModalVisible }) => {
     variants,
     images,
     total_quantity,
+    reviews,
   } = singleProduct;
-
+  
   return (
     <ParentContainer vertical justify="space-around">
       <DetailContainer>
@@ -130,7 +131,7 @@ const ProductDetail = ({ id, hideTabs, setIsModalVisible }) => {
 
               <Flex align="center" justify="center" gap={10}>
                 <Rate disabled defaultValue={5} count={5} />
-                <Text> 4 reviews</Text>
+                <Text> {reviews.length} reviews</Text>
               </Flex>
             </Flex>
             <Text>{description}</Text>
@@ -190,7 +191,7 @@ const ProductDetail = ({ id, hideTabs, setIsModalVisible }) => {
           </Card>
         </InfoContainer>
       </DetailContainer>
-      {!hideTabs && <ProductReviewTab description={description} />}
+      {reviews.length > 0 && <ProductReviewTab reviews={reviews} />}
     </ParentContainer>
   );
 };

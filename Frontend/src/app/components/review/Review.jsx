@@ -2,7 +2,6 @@
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Carousel, Rate } from "antd";
 import { useRef } from "react";
-import { reviews } from "../../constants";
 import {
   Arrow,
   ArrowContainer,
@@ -11,11 +10,11 @@ import {
   Description,
   ParentContainer,
   ReviewsContainer,
-  ReviewsSubtitle,
   ReviewsTitle,
   ReviewsTitleContainer,
   Title,
 } from "./ReviewStyled";
+import {useState, useEffect} from "react"
 
 const CustomArrow = ({ className, style, onClick, icon }) => (
   <Arrow className={className} style={{ ...style }} onClick={onClick}>
@@ -25,6 +24,7 @@ const CustomArrow = ({ className, style, onClick, icon }) => (
 
 const Review = () => {
   const carouselRef = useRef(null);
+  const [reviews, setReviews] = useState([])
 
   const handlePrevClick = () => {
     if (carouselRef.current) {
@@ -38,6 +38,15 @@ const Review = () => {
     }
   };
 
+useEffect( () => {
+const getReviews = async () => {
+  const response = await fetch('/api/reviews')
+  const data = await response.json();
+  setReviews(data)
+}
+getReviews()
+}, [])
+
   return (
     <ParentContainer>
       <ReviewsContainer>
@@ -45,7 +54,7 @@ const Review = () => {
           <ReviewsTitle>Let customers speak for us</ReviewsTitle>
           <div>
             <Rate disabled defaultValue={5} style={{ color: "#d3d21e" }} />
-            <span>from 137 reviews</span>
+            <span>from {reviews.length} reviews</span>
           </div>
         </ReviewsTitleContainer>
         <CarouselWrap>
@@ -94,8 +103,8 @@ const Review = () => {
                   defaultValue={review.rating}
                   style={{ color: "#d3d21e" }}
                 />
-                <Title>{review.title}</Title>
-                <Description>{review.description}</Description>
+                <Title>{review.customer_name}</Title>
+                <Description>{review.message}</Description>
               </Card>
             ))}
           </Carousel>
