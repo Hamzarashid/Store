@@ -64,6 +64,9 @@ class ApiController extends Controller
             ->select('variants.attribute_name as size', 'variants.attribute_value as quantity')
             ->where('variants.product_id', '=', $product->id)->get();
 
+        $reviews = DB::table('reviews')
+            ->select('*')
+            ->where('reviews.product_id', '=', $id)->get();
         foreach ($variants as $key => $variant) {
             $totalQuantity += $variant->quantity;
         }
@@ -79,7 +82,8 @@ class ApiController extends Controller
             'updated_at' => $product->updated_at->format('Y-m-d H:i:s'),
             'total_quantity' => $totalQuantity,
             'images' => $images,
-            'variants' => $variants
+            'variants' => $variants,
+            'reviews' =>  $reviews
         ];
 
         return Response::json($response);
@@ -254,4 +258,12 @@ public function review(Request $request)
     }
 }
 
+public function getReviews()
+{
+    $reviews = Review::all();
+    return Response::json($reviews);
 }
+
+}
+
+
