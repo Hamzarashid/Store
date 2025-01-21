@@ -85,7 +85,7 @@ const ProductDetail = ({ id, setIsModalVisible }) => {
     <ParentContainer vertical justify="space-around">
       <DetailContainer>
         <ImageContainer>
-          <StyledCarousel autoplay arrows dots={false}>
+          <StyledCarousel autoplay arrows={images.length > 1} dots={false}>
             {images.map((src, index) => (
               <div key={index}>
                 <CarouselImage

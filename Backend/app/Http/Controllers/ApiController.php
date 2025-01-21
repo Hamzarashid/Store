@@ -158,7 +158,7 @@ class ApiController extends Controller
         DB::commit();
 
         Mail::to($data["customer"]['email'])->send(new CustomerOrderMail(order: $data));
-        Mail::to('hamzarashid.elites@gmail.com')->send(new AdminOrderMail($data));
+        Mail::to(env('MAIL_USERNAME'))->send(new AdminOrderMail($data));
 
         return response()->json(['success' => true, 'message' => 'Order is ready']);
     } catch (\Exception $e) {

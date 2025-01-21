@@ -28,7 +28,7 @@
     $navigation_links = json_decode(json_encode($links), false);
 @endphp
 
-<div class="main-sidebar">
+<div class="main-sidebar ">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
             <a href="{{ route('dashboard') }}">{{ "Ecommerce Panel" }}</a>

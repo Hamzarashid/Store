@@ -111,7 +111,6 @@ export const Card = styled.div`
   flex-direction: column;
   align-items: start;
   justify-content: start;
-  height: 100%;
 
   @media (max-width: ${breakpoints.tablet}) {
     max-width: 100%;
